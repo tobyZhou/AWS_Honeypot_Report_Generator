@@ -1,4 +1,5 @@
 
+import sys
 import pycountry
 import subprocess
 
@@ -43,7 +44,25 @@ def human_number(num, k=1000):
 
 
 def get_abbreviation(country):
-    return pycountry.countries.get(name=country).alpha_2
+    if country == "None":
+        print "N.A. for abbreviation (Country is None)"
+        return "N.A."
+    if not country:
+        print "Country is None, which shouldnt happen. Exit now..."
+        sys.exit(0)
+
+    for c in pycountry.countries:
+        if hasattr(c, "name"):
+            if c.name == country.decode('utf-8'):
+                return c.alpha_2
+        if hasattr(c, "common_name"):
+            if c.common_name == country.decode('utf-8'):
+                return c.alpha_2
+        if hasattr(c, "official_name"):
+            if c.official_name == country.decode('utf-8'):
+                return c.alpha_2
+    print "ERROR: Cannot find abbreviation for country ", country
+    return "N.A."
 
 
 def load_protocols(csv_file):
@@ -58,9 +77,14 @@ def load_protocols(csv_file):
     return protocol_list
 
 
+
 def convert_pcap_to_csv(pcap_file, csv_file):
-    cmd = [config.Pcap_Csv_Command['wireshark'], "-r", pcap_file]
-    cmd.extend(config.Pcap_Csv_Command['options'])
-    cmd.append(">")
-    cmd.append(csv_file)
-    print subprocess.check_output(cmd)
+    try:
+        subprocess.check_output(config.Pcap_Csv_Command_String.format(config.Wireshark_File,
+                                                                      pcap_file,
+                                                                      csv_file),
+                                shell=True)
+        return 0
+    except subprocess.CalledProcessError as e:
+        print e.output
+        return 1

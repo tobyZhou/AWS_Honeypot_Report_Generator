@@ -33,13 +33,13 @@ class BasePacket:
         return self.packet_size
 
     def get_src_country(self):
-        return self.country.decode('utf-8')
+        return self.country
 
     def get_src_country_code_2l(self):
         return self.country_code
 
     def get_src_city(self):
-        return self.city.decode('utf-8')
+        return self.city
 
     def get_src_country_city(self):
         return self.get_src_country(), self.get_src_city()

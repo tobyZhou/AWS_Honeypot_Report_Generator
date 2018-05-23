@@ -66,7 +66,10 @@ class Honeypot:
             # Load protocol info from csv file
             csv_file = '.'.join(logfile.split('.')[:-1]) + ".csv"
             if not os.path.isfile(csv_file):
-                utility.convert_pcap_to_csv(logfile, csv_file)
+                if utility.convert_pcap_to_csv(logfile, csv_file) != 0:
+                    print "ERROR: Cannot convert pcap to csv."
+                    print "ERROR: Skip ", logfile
+                    continue
             protocol_list = utility.load_protocols(csv_file)
             #print protocol_list
 

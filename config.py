@@ -17,7 +17,11 @@ Threshold_Tcp_Num = 100
 Threshold_Tcp_Average_Size = 100
 Country_Name_Replacement = {"Vietnam": "Viet Nam",
                             "Republic of Korea": "Korea, Republic of",
-                            "Russia": "Russian Federation"}
+                            "Russia": "Russian Federation",
+                            "Iran": "Iran, Islamic Republic of",
+                            "Macedonia": "Macedonia, Republic of",
+                            "U.S. Virgin Islands": "Virgin Islands, U.S.",
+                            "Myanmar [Burma]": "Myanmar"}
 
 Honeypot_IP_Name_Map = {"172.31.1.17": "ADSC_0",
                         "172.31.27.32": "ADSC_1",
@@ -34,7 +38,7 @@ JSON_DateTime_Format = "%m-%d-%Y:%H:%M:%S"
 
 # Json log file entry pattern
 JSON_Pattern = \
-"""{"index":{  "_index":"json_packets2", "_type":"information" }}
+u"""{"index":{  "_index":"json_packets2", "_type":"information" }}
 {"@timestamp":"%s", "year":%d, "month":%d, "day":%d, "hour":%d, "minute":%d, "second":%d,\
  "network_prtcl":"%s", "transport_prtcl":"%s", "application_prtcl":"%s",\
  "src_ip":"%s", "dst_ip":"%s", "src_port":%d, "dst_port":%d, "icmp_type":%d,\
@@ -48,3 +52,6 @@ Pcap_Csv_Command = {
     "options": ["-T", "fields", "-e", "frame.number", "-e", "_ws.col.Protocol", "-E", "header=y", "-E",
                 "separator=,", "-E", "quote=d", "-E", "occurrence=f"],
 }
+Pcap_Csv_Command_String = \
+""" "{}" -r "{}" -T fields -e frame.number -e _ws.col.Protocol -E header=y -E separator=, \
+-E quote=d -E occurrence=f > "{}" """

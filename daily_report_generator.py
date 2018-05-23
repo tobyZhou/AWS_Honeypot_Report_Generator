@@ -443,6 +443,7 @@ def generate_csv_tcp_file(date, honeypots, tcp_check_ports):
 
 
 def generate_json_file(date, honeypots):
+    print "Generating json"
     json_content = ""
 
     for hp in honeypots:
@@ -452,8 +453,8 @@ def generate_json_file(date, honeypots):
                                                 tcp.get_hour(), tcp.get_minute(), tcp.get_second(),
                                                 tcp.get_network_prtcl(), tcp.get_transport_prtcl(),
                                                 tcp.get_application_prtcl(), tcp.get_src_ip(), tcp.get_dst_ip(),
-                                                tcp.get_src_port(), tcp.get_dst_port(), -1,
-                                                int(tcp.get_packet_size()), tcp.get_src_country(), tcp.get_src_city(),
+                                                tcp.get_src_port(), tcp.get_dst_port(), -1, int(tcp.get_packet_size()),
+                                                tcp.get_src_country().decode('utf-8'), tcp.get_src_city().decode('utf-8'),
                                                 tcp.get_src_country_code_2l())
             json_content += json_entry
 
@@ -463,8 +464,8 @@ def generate_json_file(date, honeypots):
                                                 icmp.get_hour(), icmp.get_minute(), icmp.get_second(),
                                                 icmp.get_network_prtcl(), icmp.get_transport_prtcl(),
                                                 icmp.get_application_prtcl(), icmp.get_src_ip(), icmp.get_dst_ip(),
-                                                -1, -1, icmp.get_icmp_type(),
-                                                icmp.get_packet_size(), icmp.get_src_country(), icmp.get_src_city(),
+                                                -1, -1, icmp.get_icmp_type(), icmp.get_packet_size(),
+                                                icmp.get_src_country().decode('utf-8'), icmp.get_src_city().decode('utf-8'),
                                                 icmp.get_src_country_code_2l())
             json_content += json_entry
 
@@ -494,7 +495,7 @@ def main():
 
     # ---------- Processing ----------
     # Create honeypot objects and process pcap files for each
-    print "Processing ", date
+    print "\nProcessing ", date
     honeypot_list = []
     for hp_ip in config.AWS_Honeypot_IPs:
         hp = Honeypot(ip=hp_ip,
